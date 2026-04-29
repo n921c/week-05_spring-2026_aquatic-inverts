@@ -70,11 +70,156 @@ ncos_sites <- sites |>
   
   # filter to only include NCOS quarterly sampling sites
   filter(sector == "NCOS" & sampling_frequency == "Quarterly")
+
+```
+
+## clean `taxon_list`
+
+Goal: convert character strings in the existing 
+`taxon_list` data frame into snakecase
+
+```{r}
+#| label: cleaning-taxon
+
+# creating new object from taxon_list
+taxon_list_clean <- taxon_list |> 
   
+  # converted taxon names to snake case
+  mutate(verbatim_name = to_any_case(verbatim_name,
+                                     case = "snake"))
 
+```
 
+## clean `water_quality`
+
+Goal: create a data frame with median pH, median DO (mg/L), median salinity (ppt) for each date and site
+
+*pseudocode*
+
+- create new object from `water_quality`
+- clean column names using janitor
+- only include surveys from quarterly NCOS sites
+- create new column called `date_site` to join w later data frames
+- group by date_site
+- calculate median pH, salinity, and dissolved oxygen
+- ungroup
+- filter out any outliers
+
+```{r}
+#| label: cleaning-water-quality
+
+water_quality_clean <- water_quality |> 
+  
+  clean_names() |> 
+  
+  semi_join(sites, by = "site") |> 
+  
+  # combine date and site together
+  unite("date_site", date, site, remove = TRUE) |> 
+  
+  # group by date_site
+  group_by(date_site) |> 
+  
+  # create new columns that show median of each variable at each date_site
+  summarize(med_ph = median(p_h, na.rm = TRUE),
+            med_sal = median(salinity_ppt, na.rm = TRUE),
+            med_do = median(dissolved_oxygen_mg_l, na.rm = TRUE)) |> 
+  
+  ungroup() |> 
+  
+  # filter out salinity outliers
+  filter(date_site != "2022-08-12-NVBR")
+
+```
+
+## clean `aq_ins`
+
+Goal: create a long format data frame in which each row contains the counted individuals in each taxon during each survey. The data frame should include taxonomic info for each organism and the water quality info for each survey
+
+- create a new object from `aq_ins`
+- clean column names
+- filter to only include quarterly NCOS sites
+- select columns
+- filter to only include "filtered beaker" sample
+- convert the data frame to long format
+- gorup by site, date, and taxon
+- calculate average abundance per liter (sum counts divided by 7.5 liters)
+- create a new column called `data_site` to join w water quality
+- join data frames
+- join w taxon list
+
+```{r}
+#| label: cleaning-aq-ins
+
+# creating new clean object from aquatic inverts
+aq_ins_clean <- aq_ins |> 
+  
+  clean_names() |> 
+  
+  semi_join(ncos_sites, by = "site") |> 
+  
+  rename(date = date_on_vial) |> 
+  
+  # select columns of interest
+  select(date, sample_type, site,
+         ostracod,
+         copepod,
+         hemiptera_corixidae_boatman,
+         cladocera,
+         nematode,
+         diptera_ceratopogonidae, 
+         annelida_oligochaete,
+         diptera_chironomid,
+         annelida_polychaete) |> 
+  
+  filter(sample_type %in% c("FB250", "FB 250"))  |> 
+  
+  pivot_longer(
+    # cols = columns to make longer
+    cols = ostracod:annelida_polychaete,
+    names_to = "taxon",
+    values_to = "abundance" 
+  ) |> 
+  
+  group_by(date, site, taxon) |> 
+  
+  # calculate average abundance per liter (sum abundance divided by 7.5 liters)
+  summarize(ave_lit = sum(abundance, na.rm = TRUE)/7.5) |> 
+  
+  ungroup() |> 
+  
+   # create a new column called `date_site` to join with water quality
+  unite("date_site", date, site, remove = FALSE) |> 
+  
+  # join with water quality
+  left_join(water_quality_clean, by = "date_site") |> 
+  
+  # join with taxon list
+  left_join(taxon_list_clean, by = c("taxon" = "verbatim_name")) |> 
+  
+  mutate(site_full = case_when(
+    site == "NVBR" ~ "North of Venoco Bridge",
+    site == "NEC" ~ "South of Venoco Bridge",
+    site == "NMC" ~ "Main Channel",
+    site == "NPB" ~ "South of Phelps Bridge",
+    site == "NPB1" ~ "North of Phelps Bridge",
+    site == "NPB2" ~ "Phelps Road",
+    site == "NWP" ~  "West Pond",
+    site == "NDC" ~ "Devereux Creek"
+  )) |> 
+  
+  # setting factor levels for site
+  mutate(site_full = fct_reorder(site_full, med_sal, .fun = "median", .na_rm = TRUE),
+         site_full = fct_rev(site_full))
 
 
 ```
+
+
+
+
+
+
+
 
 
