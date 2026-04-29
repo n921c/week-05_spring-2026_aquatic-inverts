@@ -4,3 +4,77 @@ author: "Natalie Chen"
 format: pdf
 ---
 
+
+# 1. Set up
+
+## Packages
+
+```{r}
+#| label: packages
+
+# general use and cleaning
+library(tidyverse)
+library(here)
+library(janitor)
+library(snakecase)
+
+# wrap axis labels
+library(scales)
+
+# read in .xlsx files 
+library(readxl)
+
+# visualizing missing data
+library(naniar)
+
+# arranging plots
+library(patchwork)
+```
+
+
+## Data
+
+```{r}
+#| label: data
+
+# reads from taxon list from the data file
+taxon_list <- read_csv(here("data","taxon_list.csv"))
+
+# aquatic invertebrates
+aq_ins <- read_xlsx(here("data","Aquatic Sampling Data-2026-03-10.xlsx"), sheet = "Aquatic Insects")
+
+# site info
+sites <- read_xlsx(here("data","Aquatic Sampling Data-2026-03-10.xlsx"), sheet = "sites")
+  
+# water quality
+
+water_quality <-read_xlsx(
+  here("data","Aquatic Sampling Data-2026-03-10.xlsx"),
+  sheet = "Water Quality",
+  na = c("","n/a","N/A","over","173+"))
+
+```
+
+
+# 2. Cleaning
+
+## `sites` object
+
+Goal: Create a new object from `sites`` that only includes NCOS sites
+
+```{r}
+#| label: ncos sites
+
+# creating new object from sites
+ncos_sites <- sites |> 
+  
+  # filter to only include NCOS quarterly sampling sites
+  filter(sector == "NCOS" & sampling_frequency == "Quarterly")
+  
+
+
+
+
+```
+
+
