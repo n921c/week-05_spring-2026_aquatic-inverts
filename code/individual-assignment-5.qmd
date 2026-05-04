@@ -1,0 +1,62 @@
+---
+title: "Individual Assignment 5"
+author: "Natalie Chen"
+date: 05-04-2026
+format: 
+  pdf:
+    include-in-header: 
+       text: |
+         \usepackage{fvextra}
+         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+         \DefineVerbatimEnvironment{OutputCode}{Verbatim}{breaklines,commandchars=\\\{\}}
+execute: 
+  warning: false
+---
+
+# Set up
+
+## Packages
+```{r}
+#| label: packages
+
+#general use 
+library(here)
+
+library(tidyverse)
+
+library(janitor)
+
+# packages for visualization customization
+
+library(scales)
+library(paletteer)
+library(ggthemes)
+
+```
+
+## Data
+```{r}
+#| label: data
+
+# taxonomic information
+taxon_list <- read_csv(here("data", "taxon_list.csv")) 
+
+# aquatic invertebrates
+aq_ins <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx"),
+                    sheet = "Aquatic Insects") 
+
+# site information
+sites <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx"),
+                   sheet = "sites")
+
+# water quality information
+water_quality <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx"),
+                           sheet = "Water Quality",
+                           na = c("", "n/a", "N/A", "over", "173+")) 
+```
+
+
+
+
+```
+
