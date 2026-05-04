@@ -68,6 +68,28 @@ water_quality <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx")
 
 
 
+# 1. Visualizing differences across sites in major taxon abundance
 
-```
+## a. Plan your figure
 
+
+## b. Wrangle your data
+
+## c. Code your figure
+
+
+## d. Create a multipanel figure
+
+
+## e. Interpret your figure
+
+
+# 2. Visualizing total abundan ce as a function of salinity
+
+## a. Plan your figure
+
+## b. Wrangle your data
+
+## c. Code your figure
+
+## d. Interpret your figure
