@@ -26,11 +26,22 @@ library(tidyverse)
 
 library(janitor)
 
+library(snakecase)
+
 # packages for visualization customization
 
 library(scales)
 library(paletteer)
 library(ggthemes)
+
+# reading in .xlsx files
+library(readxl)
+
+# visualizing missing data
+library(naniar)
+
+# arranging plots
+library(patchwork)
 
 ```
 
