@@ -37,3 +37,4 @@ The rendered key for the code in this repository is [here](https://github.com/n9
 
 The rendered document from class is here [here](https://github.com/n921c/week-05_spring-2026_aquatic-inverts/blob/main/code/w5-in-class-template.pdf).
 
+The rendered document for my individual assignment 5 is [here](https://github.com/n921c/week-05_spring-2026_aquatic-inverts/blob/main/code/individual-assignment-5.pdf)
