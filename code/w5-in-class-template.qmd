@@ -370,11 +370,11 @@ Copepod abundance varies across sites.
 ## Putting salinity and copepod abundance together
 
 ```{r}
-
 #| label: multipanel
+#| fig-height: 8
+#| fig-width: 8
 
 salinity_plot / copepod_plot
-
 
 ```
 
