@@ -377,9 +377,15 @@ salinity_plot / (copepod_plot | ostracod_plot)
 ```
 
 
-
 ## e. Interpret your figure
 
+**What are the differences between sites in copepod and ostracod abundance?**
+
+- Average copepod abundance/L was highest at East Channel and Devereux Creek at respective transformed values of around 4 and 3, and moderate at a value of around 2 at North of Venoco Bridge, South of Phelps Bridge, and Phelps Road. The highest average ostracod abundance/L was moderate around a transformed value of 2 at South of Phelps Bridge and also Devereux Creek, and low at pretty much every other site.
+
+**How does ostracod abundance relate (or not relate) to site-level differences in salinity?**
+
+- Ostracod abundance does not correlate to salinity site-level differences in salinity because the plots do not show the same type of trend for the salinity plot and for the ostracod abundance plot. 
 
 # 2. Visualizing total abundance as a function of salinity
 
