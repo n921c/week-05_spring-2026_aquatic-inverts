@@ -227,7 +227,7 @@ ostracod <- aq_ins_clean |>
   # filter to only include ostracod
   filter(taxon == "ostracod") |> 
   
-  # 
+  # calculate the average of ostracod abundance per lit
   mutate(ostracod_log_avg_per_lit = log(avg_per_lit + 1))
 
 # display 10 random rows
@@ -241,16 +241,40 @@ slice_sample(ostracod, n = 10)
 
 ```{r}
 #| label: visualizing ostracod abundance
+#| fig-height: 4
+#| fig-width: 8
 
+#  base layer: create an object that stores the plot
 ostracod_plot <- ggplot(data = ostracod,
-                        mapping = aes(x = )
-                        )
+                        # x = site
+                        # y = log + 1 transformed average abundance/L
+                        mapping = aes(x = site_full,
+                                      y = ostracod_log_avg_per_lit)) +
+  
+  # first layer: geometry jitter points to represent each sample 
+  geom_jitter(height = 0,
+              width = 0.1,
+              shape = 21) +
+  # points to represent median abundance
+  stat_summary(geom = "point",
+               fun = median,
+               color = "green",
+               size = 2) +
+  # wrapping x axis labels
+  scale_x_discrete(labels = label_wrap(width = 15)) +
+  
+  # labeling axes and title
+  labs(title = "Ostracod Abundance",
+       x = "Site",
+       y = "log + 1 transformed average abundance/L") +
+  
+  # changed theme
+  theme_bw()
 
-
-
+# display plot
+ostracod_plot
 
 ```
-
 
 
 ## d. Create a multipanel figure
