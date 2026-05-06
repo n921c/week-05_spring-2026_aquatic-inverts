@@ -80,6 +80,20 @@ water_quality <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx")
 
 ## b. Wrangle your data
 
+```{r}
+#| label: wrangling ostracod
+
+# creating new object from aquatic insects 
+ostracod <- aq_ins_clean |> 
+  
+  # filter to only include ostracods
+  filter(taxon == "ostracod")
+
+# display 10 random rows
+
+slice_sample(ostracod, n = 10)
+
+```
 
 
 
