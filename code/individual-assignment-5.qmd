@@ -72,8 +72,8 @@ water_quality <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx")
 
 ## a. Plan your figure
 
-- x-axis: site
-- y-axis: abundance of ostracods
+- x-axis: site_full
+- y-axis: average abundance of ostracod per liter
 - geometry to represent average abundance/L: `geom_jitter()`
 - geometry to represent medians: `stat_summary()`
 
@@ -96,9 +96,20 @@ slice_sample(ostracod, n = 10)
 ```
 
 
-
-
 ## c. Code your figure
+
+```{r}
+#| label: visualizing ostracod abundance
+
+ostracod_plot <- ggplot(data = ostracod,
+                        mapping = aes(x = )
+                        )
+
+
+
+
+```
+
 
 
 ## d. Create a multipanel figure
