@@ -206,6 +206,94 @@ aq_ins_clean <- aq_ins |>
 
 ```
 
+
+```{r}
+#| label: visualizing salinity plot
+#| fig-height: 4
+#| fig-width: 8
+
+salinity_plot <- ggplot(data = aq_ins_clean,
+                        # x-axis: full site name
+                        # y-axis: median salinity
+                        mapping = aes(x = site_full,
+                                      y = med_sal)) +
+  # points representing median salinity at each survey
+  geom_jitter(height = 0,
+              shape = 21) +
+  
+  stat_summary(geom = "point",
+               fun = median,
+               color = "red",
+               size = 2,) +
+  
+  # wrap x-axis labels
+  scale_x_discrete(labels = label_wrap(width = 10)) +
+  
+  # labeling titles and axes
+  labs(x = "Site",
+       y = "Median salinity (ppt)",
+       title = "Site Salinity") +
+  
+  # change theme
+  theme_bw()
+
+
+# displaying the object
+salinity_plot
+
+```
+
+
+
+```{r}
+#| label: copepod cleaning
+
+copepods <- aq_ins_clean |> 
+  
+  filter(taxon == "copepod") |> 
+  
+  mutate(log_avg_per_lit = log(avg_per_lit + 1))
+
+
+```
+
+
+```{r}
+#| label: copepod plot
+#| fig-height: 4
+#| fig-width: 8
+
+# creating object to store plot
+copepod_plot <- ggplot(data = copepods,
+                       # x-axis: full site name
+                       # y-axis: log transformed avg count/L
+                       mapping = aes(x = site_full,
+                                   y = log_avg_per_lit)) +
+  # jitter to represent salinity
+  geom_jitter(height = 0,
+              width = 0.1, 
+              shape = 21) +
+# points to represent median copepod abundance
+  stat_summary(geom = "point",
+               fun = median,
+               color = "blue",
+               size = 2) +
+  # wrapping x axis labels
+scale_x_discrete(labels = label_wrap(width = 10)) +
+  
+  # relabelling axes
+  labs(x = "Site",
+       y = "log + 1 transformed averag abundance/L",
+       title = "Copepod Abundance") +
+  
+  # different theme
+  theme_bw()
+  
+# display object
+copepod_plot
+
+```
+
 # 1. Visualizing differences across sites in major taxon abundance
 
 ## a. Plan your figure
@@ -261,7 +349,7 @@ ostracod_plot <- ggplot(data = ostracod,
                color = "green",
                size = 2) +
   # wrapping x axis labels
-  scale_x_discrete(labels = label_wrap(width = 15)) +
+  scale_x_discrete(labels = label_wrap(width = 10)) +
   
   # labeling axes and title
   labs(title = "Ostracod Abundance",
@@ -276,14 +364,24 @@ ostracod_plot
 
 ```
 
-
 ## d. Create a multipanel figure
+
+```{r}
+#| label: multipanel salinity/copepod/ostracod figure
+#| fig-height: 10
+#| fig-width: 10
+
+salinity_plot / (copepod_plot | ostracod_plot)
+
+
+```
+
 
 
 ## e. Interpret your figure
 
 
-# 2. Visualizing total abundan ce as a function of salinity
+# 2. Visualizing total abundance as a function of salinity
 
 ## a. Plan your figure
 
