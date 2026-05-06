@@ -72,8 +72,17 @@ water_quality <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx")
 
 ## a. Plan your figure
 
+- x-axis: site
+- y-axis: abundance of ostracods
+- geometry to represent average abundance/L: `geom_jitter()`
+- geometry to represent medians: `stat_summary()`
+
 
 ## b. Wrangle your data
+
+
+
+
 
 ## c. Code your figure
 
