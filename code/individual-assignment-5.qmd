@@ -391,6 +391,13 @@ salinity_plot / (copepod_plot | ostracod_plot)
 
 ## a. Plan your figure
 
+- x-axis: salinity (ppt)
+- y-axis: log-transformed average abundance/L
+- color: taxon
+- geometry: geom_point()
+- facets: by each taxon in aq_ins_clean with free scales 
+
+
 ## b. Wrangle your data
 
 ## c. Code your figure
