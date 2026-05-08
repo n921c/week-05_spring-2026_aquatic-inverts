@@ -400,6 +400,31 @@ salinity_plot / (copepod_plot | ostracod_plot)
 
 ## b. Wrangle your data
 
+group by taxon
+add up all taxon
+
+```{r}
+#| label: wrangling aq insects
+
+
+# change existing aq_in_clean object
+aq_ins_clean1 <- aq_ins_clean |> 
+
+  # group by the sample date and by taxon
+  group_by(date, taxon) |> 
+  
+  # add in a new column that is the sum of avg_per_lit per taxon per date
+  mutate(total_avg_per_lit = sum(avg_per_lit, na.rm = TRUE)) |> 
+  
+  # ungroup
+  ungroup() |> 
+  
+  # keep only date, taxon, med_sal, and total avg/L
+  select(date, taxon, med_sal, total_avg_per_lit)
+
+```
+
+
 ## c. Code your figure
 
 ## d. Interpret your figure
