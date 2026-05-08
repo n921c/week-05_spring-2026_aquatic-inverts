@@ -400,15 +400,13 @@ salinity_plot / (copepod_plot | ostracod_plot)
 
 ## b. Wrangle your data
 
-group by taxon
-add up all taxon
 
 ```{r}
 #| label: wrangling aq insects
 
 
 # change existing aq_in_clean object
-aq_ins_clean1 <- aq_ins_clean |> 
+aq_ins_clean <- aq_ins_clean |> 
 
   # group by the sample date and by taxon
   group_by(date, taxon) |> 
@@ -420,11 +418,19 @@ aq_ins_clean1 <- aq_ins_clean |>
   ungroup() |> 
   
   # keep only date, taxon, med_sal, and total avg/L
-  select(date, taxon, med_sal, total_avg_per_lit)
+  select(date, taxon, med_sal, total_avg_per_lit) |> 
+
+  # reorder by max abundance
+  arrange(desc(total_avg_per_lit))
+  
+
+# display 10 random rows
+slice_sample(aq_ins_clean, n = 10)
 
 ```
 
-
 ## c. Code your figure
+
+
 
 ## d. Interpret your figure
