@@ -37,11 +37,12 @@ library(ggthemes)
 # reading in .xlsx files
 library(readxl)
 
-# visualizing missing data
-library(naniar)
+library(NatParksPalettes)
 
 # arranging plots
 library(patchwork)
+
+
 
 ```
 
@@ -407,6 +408,9 @@ salinity_plot / (copepod_plot | ostracod_plot)
 
 # change existing aq_in_clean object
 aq_ins_clean <- aq_ins_clean |> 
+  
+  # change taxon values to title case
+   mutate(taxon = str_replace_all(taxon, "_", " ") |> str_to_title()) |> 
 
   # group by the sample date and by taxon
   group_by(date, taxon) |> 
@@ -430,6 +434,48 @@ slice_sample(aq_ins_clean, n = 10)
 ```
 
 ## c. Code your figure
+
+
+```{r}
+#| label: abundance and salinity plot
+#| fig-height: 8
+#| fig-width: 8
+
+#  base layer: create an object that stores the plot
+salinity_plot <- ggplot(data = aq_ins_clean,
+                        # x = salinity
+                        # y = log + 1 transformed average abundance/L
+                        mapping = aes(x = med_sal,
+                                      y = total_avg_per_lit,
+                                      color = taxon)) +
+  
+  # first layer: geometry jitter points to represent each sample 
+  
+  geom_jitter(height = 0,
+              width = 0.1,
+              shape = 21) +
+  
+  facet_wrap( ~taxon,
+              scales = "free") +
+  
+  scale_color_manual(values = natparks.pals("LakeNakuru", n = 9)) +
+  
+  # labeling axes and title
+  labs(title = "Salinity and Abundance per Taxon",
+       x = "Salinity (ppt)",
+       y = "log + 1 transformed average abundance/L") +
+  
+  # changed theme
+  theme_bw() +
+  
+  # remove legend
+  theme(legend.position = "none")
+
+
+# display plot
+salinity_plot
+
+```
 
 
 
