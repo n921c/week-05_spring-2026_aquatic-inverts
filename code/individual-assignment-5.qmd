@@ -424,9 +424,8 @@ aq_ins_clean <- aq_ins_clean |>
   # keep only date, taxon, med_sal, and total avg/L
   select(date, taxon, med_sal, total_avg_per_lit) |> 
 
-  # reorder by max abundance
-  arrange(desc(total_avg_per_lit))
-  
+  # refactor by max abundance
+  mutate(taxon = fct_reorder(taxon, total_avg_per_lit, max, .desc = TRUE))
 
 # display 10 random rows
 slice_sample(aq_ins_clean, n = 10)
@@ -478,5 +477,9 @@ salinity_plot
 ```
 
 
-
 ## d. Interpret your figure
+
+In 3-5 sentences, describe differences or similarities between taxa in relationships between abundance and salinity. Be specific using the visual components of the plot.
+
+Across all sites, most of the data points are clustered in between a salinity of 0-10 ppt. Additionally, at all sites, there is a small cluster of data points around 40 ppt and 65 ppt, but not between 10-40 ppt and 50-60 ppt. For all taxa except for Annelida Polychaete and Annelida Oligochaete, the highest abundance/L points lie in between this salinity range of 0-10 ppt. Ostracod, Copepod, and Cladocera have the most data points that lie high above their low abundance clusters of points. Thus, it is reasonable to conclude that the lower salinity contributes to higher taxa abundance/L.
+
