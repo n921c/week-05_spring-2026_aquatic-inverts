@@ -354,7 +354,7 @@ scale_x_discrete(labels = label_wrap(width = 15)) +
   
   # relabelling axes
   labs(x = "Site",
-       y = "log + 1 transformed averag abundance/L",
+       y = "log + 1 transformed average abundance/L",
        title = "Copepod Abundance") +
   
   # different theme
